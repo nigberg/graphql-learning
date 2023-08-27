@@ -1,12 +1,17 @@
 import React from "react";
 import {ApolloProvider, gql, useQuery} from "@apollo/client";
 import Pet from "./bus/pet";
+import Customer from "./bus/customer";
 import  {client} from "./init/client";
+import {Login} from "./bus/customer/login";
+
 
 export default function App() {
 
     return (
         <ApolloProvider client={client}>
+            {/*<Customer/>*/}
+            <Login/>
             <Pet/>
         </ApolloProvider>
     )

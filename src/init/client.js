@@ -1,6 +1,17 @@
-import {ApolloClient, InMemoryCache} from '@apollo/client';
+import {ApolloClient, InMemoryCache, createHttpLink} from '@apollo/client';
+import {setContext} from "@apollo/client/link/context";
 
-const url = "https://funded-pet-library.moonhighway.com/";
-// const url = 'https://flyby-router-demo.herokuapp.com/'
+const uri = "https://funded-pet-library.moonhighway.com/";
+const httpLink = createHttpLink({uri})
+const authLink = setContext((_, {headers}) => {
+    const token = localStorage.getItem("token");
+    return{
+        headers:{
+            ...headers,
+            authorization: token ? `Bearer ${token}` : ""
+        }
+    }
+})
 
-export const client =  new ApolloClient({uri: url, cache: new InMemoryCache()});
+
+export const client =  new ApolloClient({link: authLink.concat(httpLink), cache: new InMemoryCache()});
